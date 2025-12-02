@@ -5,7 +5,7 @@ pipeline {
     stage('Checkout') {
       steps {
         // clone your repo so docker-compose.yml is available in workspace
-        git url: 'https://github.com/your/repo.git', branch: 'main'
+        git url: 'https://github.com/srikrishna206/novya_update.git', branch: 'main'
       }
     }
 
