@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here'
 DEBUG = config('DEBUG', default=True, cast=bool)  # Changed to True for development
 
 # Docker-compatible ALLOWED_HOSTS
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'backend', '20.243.177.192', 'frontend']
+ALLOWED_HOSTS = ['34.224.216.146', '127.0.0.1', '0.0.0.0', 'backend', '20.243.177.192', 'frontend']
 
 
 # Application definition
