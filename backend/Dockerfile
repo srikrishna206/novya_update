@@ -1,34 +1,25 @@
-FROM python:3.11-slim
+# backend/Dockerfile
+FROM python:3.10-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set work directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    netcat-traditional \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+# system deps (adjust if needed)
+RUN apt-get update && apt-get install -y build-essential libpq-dev gcc --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# copy only requirements first for caching
+COPY requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r /app/requirements.txt
 
-# Copy project
-COPY . .
+# copy application code
+COPY . /app
 
-# Create necessary directories
-RUN mkdir -p /app/logs /app/staticfiles /app/media
+# collect static (optional - adjust STATIC settings in Django)
+# RUN python manage.py collectstatic --noinput
 
-# Make startup script executable
-RUN chmod +x start.sh
-
-# Expose port
 EXPOSE 8000
 
-# Use startup script
-CMD ["./start.sh"]
+# Command: run with Gunicorn. Assumes Django wsgi: config.wsgi:application
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120"]
