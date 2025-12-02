@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14
+    container_name: novya-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: novya
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  redis:
+    image: redis:6
+    container_name: novya-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  novya-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: novya-backend
+    depends_on:
+      - db
+      - redis
+    environment:
+      POSTGRES_DB: novya
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_HOST: db         # Django uses "postgres" but service name is "db". I can rename if you want.
+      POSTGRES_PORT: 5432
+      SECRET_KEY: hardcoded_secret_key_change_me
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  novya-ai-backend:
+    build:
+      context: ./backend/ai_backend
+    container_name: novya-ai-backend
+    environment:
+      AI_API_KEY: hardcoded_ai_key_change_me
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  novya-frontend:
+    build:
+      context: ./novya-frontend-main
+    container_name: novya-frontend
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
