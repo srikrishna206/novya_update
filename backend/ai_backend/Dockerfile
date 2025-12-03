@@ -12,4 +12,4 @@ COPY . /app
 EXPOSE 5000
 
 # If app.py defines "app" (Flask)
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5000", "--workers", "2", "--timeout", "120"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000", "--workers", "2"]
