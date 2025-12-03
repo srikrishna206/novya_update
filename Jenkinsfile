@@ -43,7 +43,7 @@ pipeline {
         # Bring down old containers, pull latest images, and start upgraded stack
         docker compose down || true
         docker compose pull || true
-        docker compose up -d
+        docker compose --env-file .env up -d
         '''
       }
     }
