@@ -17,7 +17,7 @@ app = FastAPI(
 # Enhanced CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://20.243.177.192:3000", "http://localhost:3000", "*"],
+    allow_origins=["http://34.224.216.146:3000", "http://localhost:3000", "*"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*", "Authorization", "Content-Type", "Accept", "Origin"],
@@ -30,7 +30,7 @@ async def options_handler(path: str):
     return JSONResponse(
         content={"message": "CORS preflight"},
         headers={
-            "Access-Control-Allow-Origin": "http://20.243.177.192:3000",
+            "Access-Control-Allow-Origin": "http://34.224.216.146:3000",
             "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
             "Access-Control-Allow-Headers": "Authorization, Content-Type, Accept, Origin",
             "Access-Control-Allow-Credentials": "true"
