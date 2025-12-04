@@ -1,3 +1,15 @@
+version: "3.8"
+
+# NOTE:
+# - Secrets (AI_API_KEY, SECRET_KEY) should be provided at runtime via an .env file
+#   (example: created temporarily by Jenkins in the workspace) or via environment.
+# - Example .env keys that your CI should provide:
+#     AI_API_KEY=sk-...
+#     SECRET_KEY=some_secret_for_django
+#
+# Jenkins pipeline example already writes a .env with AI_API_KEY and then uses:
+#   docker compose --env-file .env up -d
+#
 services:
   db:
     image: postgres:14
