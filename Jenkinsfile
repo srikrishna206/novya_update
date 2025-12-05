@@ -1,8 +1,9 @@
 pipeline {
   agent any
-
+  environment {
+      SCANNER_HOME=tool 'sonar-scanner'
+   }
   stages {
-
     stage('Checkout') {
       steps {
         git url: 'https://github.com/srikrishna206/novya_update.git', branch: 'main'
